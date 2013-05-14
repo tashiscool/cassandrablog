@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.welflex.model.BlogEntry;
 
-@Controller
+@Controller("Blog")
 public class BlogServiceRestEndpoint 
 {
 	
@@ -21,6 +21,14 @@ public class BlogServiceRestEndpoint
 		blogService.create(blog);
 		return blog;
 		
+	}
+
+	public BlogService getBlogService() {
+		return blogService;
+	}
+
+	public void setBlogService(BlogService blogService) {
+		this.blogService = blogService;
 	}
 	
 
