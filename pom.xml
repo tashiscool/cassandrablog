@@ -35,8 +35,29 @@
 			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
 			<name>JBoss Repo</name>
 		</repository>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>central</id>
+			<url>http://central</url>
+		</repository>
 	</repositories>
+
 	<pluginRepositories>
+		<pluginRepository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>central</id>
+			<url>http://central</url>
+		</pluginRepository>
 		<pluginRepository>
 			<id>spring-maven-release</id>
 			<name>Spring Maven Release Repository</name>
@@ -381,7 +402,7 @@
 			<version>8.4-702.jdbc3</version>
 			<classifier />
 		</dependency>
-		
+
 		<dependency>
 			<groupId>me.prettyprint</groupId>
 			<artifactId>hector</artifactId>
@@ -407,7 +428,7 @@
 			<artifactId>hector-core</artifactId>
 			<version>1.0-5</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.eaio.uuid</groupId>
 			<artifactId>uuid</artifactId>
