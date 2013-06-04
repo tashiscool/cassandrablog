@@ -17,16 +17,33 @@
 	<repositories>
 		<repository>
 			<releases>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
 			</snapshots>
-			<id>central</id>
-			<url>http://central</url>
+			<id>codehausSnapshots</id>
+			<name>Codehaus Snapshots</name>
+			<url>http://repo.maven.apache.org/maven2/</url>
+			<layout>default</layout>
 		</repository>
 		<repository>
-			<id>spring-maven-release</id>
+			<id>global</id>
+			<name>global repo</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-maven-released</id>
 			<name>Spring Maven Release Repository</name>
 			<url>http://maven.springframework.org/release</url>
 		</repository>
@@ -45,31 +62,11 @@
 			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
 			<name>JBoss Repo</name>
 		</repository>
-		<repository>
-			<id>global</id>
-        	<url>http://repo1.maven.org/maven2</url>
-        	<releases>
-                <enabled>false</enabled>
-        	</releases>
-        	<snapshots>
-            	<enabled>false</enabled>
-        	</snapshots>
-		</repository>
 	</repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>central</id>
-			<url>http://central</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-maven-release</id>
+			<id>spring-maven-releaser</id>
 			<name>Spring Maven Release Repository</name>
 			<url>http://maven.springframework.org/release</url>
 		</pluginRepository>
@@ -82,6 +79,37 @@
 			<id>spring-roo-repository</id>
 			<name>Spring Roo Repository</name>
 			<url>http://spring-roo-repository.springsource.org/release</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>JBoss Repo</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+			<name>JBoss Repo</name>
+		</pluginRepository>
+		<pluginRepository>
+			<id>global</id>
+			<url>http://repo1.maven.org/maven2</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<releases>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<id>codehausSnapshots</id>
+			<name>Codehaus Snapshots</name>
+			<url>http://repo.maven.apache.org/maven2/</url>
+			<layout>default</layout>
 		</pluginRepository>
 	</pluginRepositories>
 	<dependencies>
@@ -414,22 +442,12 @@
 		</dependency>
 
 		<dependency>
-			<groupId>me.prettyprint</groupId>
-			<artifactId>hector</artifactId>
-			<version>1.0-5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cassandra</groupId>
-			<artifactId>apache-cassandra</artifactId>
-			<version>1.2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>snakeyaml</groupId>
+			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
 			<version>1.12</version>
 		</dependency>
 		<dependency>
-			<groupId>org.cliffc.high_scale_lib</groupId>
+			<groupId>com.github.stephenc.high-scale-lib</groupId>
 			<artifactId>high-scale-lib</artifactId>
 			<version>1.1.4</version>
 		</dependency>
@@ -439,6 +457,23 @@
 			<version>1.0-5</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>me.prettyprint</groupId>
+			<artifactId>hector-core</artifactId>
+			<version>1.0-5</version>
+		</dependency>
+		<dependency>
+			<groupId>me.prettyprint</groupId>
+			<artifactId>hector-object-mapper</artifactId>
+			<version>3.0-04</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cassandra</groupId>
+			<artifactId>cassandra-all</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.eaio.uuid</groupId>
 			<artifactId>uuid</artifactId>

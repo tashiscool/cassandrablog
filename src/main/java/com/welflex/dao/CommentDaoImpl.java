@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import me.prettyprint.cassandra.serializers.BytesSerializer;
+import me.prettyprint.cassandra.serializers.BytesArraySerializer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.cassandra.serializers.UUIDSerializer;
 import me.prettyprint.hector.api.Keyspace;
@@ -89,8 +89,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
   }
 
   public List<Comment> getBlogEntryComments(String blogEntryId) {
+	  byte[] arr = {};
     SuperSliceQuery<String, byte[], String, String> query = HFactory
-        .createSuperSliceQuery(keySpace, StringSerializer.get(), BytesSerializer.get(),
+        .createSuperSliceQuery(keySpace, StringSerializer.get(), BytesArraySerializer.get(),
           StringSerializer.get(), StringSerializer.get())
         .setRange(null, null, false, Integer.MAX_VALUE).setColumnFamily(COL_FAMILY_NAME)
         .setKey(blogEntryId);

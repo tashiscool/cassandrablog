@@ -1,6 +1,6 @@
 package com.welflex.dao;
 
-import me.prettyprint.cassandra.serializers.BytesSerializer;
+import me.prettyprint.cassandra.serializers.BytesArraySerializer;
 import me.prettyprint.cassandra.serializers.SerializerTypeInferer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.hector.api.Keyspace;
@@ -41,7 +41,7 @@ public abstract class AbstractColumnFamilyDao<KeyType, T> {
 
   public T find(KeyType key) {
     SliceQuery<Object, String, byte[]> query = HFactory.createSliceQuery(keySpace,
-      SerializerTypeInferer.getSerializer(keyTypeClass), StringSerializer.get(), BytesSerializer.get());
+      SerializerTypeInferer.getSerializer(keyTypeClass), StringSerializer.get(), BytesArraySerializer.get());
 
     QueryResult<ColumnSlice<String, byte[]>> result = query.setColumnFamily(columnFamilyName)
         .setKey(key).setColumnNames(allColumnNames).execute();
