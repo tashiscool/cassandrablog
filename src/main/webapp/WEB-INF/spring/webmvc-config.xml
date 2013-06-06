@@ -16,6 +16,7 @@
 	<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
 		Also registers default Formatters and Validators for use across all @Controllers -->
 	<mvc:annotation-driven conversion-service="applicationConversionService" />
+	
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources -->
@@ -100,10 +101,16 @@
 			</list>
 		</property>
 	</bean>
-	<bean class="com.welflex.service.BlogServiceRestEndpoint" id="applicationConversionService">
-		<property name="blogService" ref="blogService"></property>
+	<bean class="com.welflex.service.BookServiceRestEndpoint" id="applicationConversionService">
+		<property name="bookService" ref="bookService"></property>
 	</bean>
-	<bean id="blogService" class = "com.welflex.service.BlogServiceImpl">
-		<constructor-arg><ref/></constructor-arg>
-	</bean>
+	<bean id="bookService" class = "com.welflex.service.BookServiceImpl" p:daoFactory-ref="daofactory"/>
+	<bean id="daofactory" class="org.lacassandra.smooshyfaces.persistence.cassandra.CassandraDAOFactory" p:bookDao-ref="bookDao" />
+	<bean id="bookDao" class="org.lacassandra.smooshyfaces.persistence.cassandra.CassandraBookDAO" p:context-ref=""/>
+	
+	<bean id="context" factory-bean="contextProvidor" factory-method="get"/>
+	<bean id="contextProvidor" class="org.lacassandra.smooshyfaces.persistence.AstyanaxKeyspaceContextProvider" 
+		p:clusterName="MyCluster" p:keyspaceName="bookdora" p:maxBlockedThreadsPerHost="25" p:maxConnectinos="1" p:maxConnectionsPerHost="5"
+		p:maxPendingConnectionsPerHost="3" p:maxTimeoutCount="3" p:maxTimeoutWhenExhausted="3000" p:poolName="BookdoraPool" p:seedHosts="localhost:9160"
+		p:thriftPort="9160" />
 </beans>
