@@ -28,10 +28,16 @@ public class UserServiceRestEndpoint {
 
 	@RequestMapping(value = "/{userid}/like/{isbn}", method = RequestMethod.GET)
 	@ResponseBody
-	public String likeBook(@PathVariable String userid, @PathVariable String isbn)
+	public User likeBook(@PathVariable String userid, @PathVariable String isbn)
 	{
-//		User u = userService.like(userid,isbn);
-		return "I like You";
+//		User u = userService.like(userid,isbn); 
+		
+		User user = new User();
+		user.setPiId("boom");
+		user.getBooks().add("for");
+		user.getNonpreferences().add("far");
+		user.getPreferences().add("fur");
+		return user;
 	}
 
 

@@ -81,7 +81,6 @@ public class CassandraBookDAO extends BaseCassandraDAO<Book, UUID> implements Bo
                 .putColumn(COLUMN_NAME_CREATED_ON, entity.getCreatedOn())
                 .putColumn(COLUMN_NAME_MODIFIED_ON, entity.getModifiedOn())
                 .putColumn(COLUMN_NAME_DESCRIPTION, entity.getDescription())
-                .putColumn(COLUMN_NAME_OWNER_ID, entity.getOwner().getId())
                 .putColumn(COLUMN_NAME_CONTENT_LOCATION, entity.getContentLocation())
                 .putColumn(COLUMN_NAME_TAGS, Joiner.on(',').join(entity.getTags()));
 

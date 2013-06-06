@@ -1,147 +1,123 @@
 package org.lacassandra.smooshyfaces.entity;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.lacassandra.smooshyfaces.entity.skinny.SkinnyUser;
 
-import javax.xml.bind.annotation.XmlElement;
+import com.google.common.base.Joiner;
+
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @XmlRootElement(name = "user")
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class User extends IdBaseEntity<UUID> implements Serializable {
-    protected String userName;
-    protected String email;
-    protected String passwordHash;
-    protected String passwordSalt;
-    protected UserSession userSession;
-    protected Date deletedOn = null;
-    protected Date registeredOn;
-    protected boolean deleted = false;
+public class User implements Serializable {
+	public List<String> getPreferences() {
+		return preferences;
+	}
+
+	public void setPreferences(List<String> preferences) {
+		this.preferences = preferences;
+	}
+
+	public List<String> getNonpreferences() {
+		return nonpreferences;
+	}
+
+	public void setNonpreferences(List<String> nonpreferences) {
+		this.nonpreferences = nonpreferences;
+	}
+
+	public void setBooks(List<String> books) {
+		this.books = books;
+	}
+
+	private String piId;
+	private List<String> books = new ArrayList<String>();
+	private List<String> preferences = new ArrayList<String>();
+	private List<String> nonpreferences;
 
     public User() {
         super();
     }
+    
+	public User(String id, String string, String string2, String string3) {
+		piId = id;
+		books = Arrays.asList(string.split(","));
+		preferences = Arrays.asList(string2.split(","));
+		nonpreferences = Arrays.asList(string3.split(","));
+	}
 
-    @XmlElement
-    public String getUserName() {
-        return userName;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((books == null) ? 0 : books.hashCode());
+		result = prime * result
+				+ ((nonpreferences == null) ? 0 : nonpreferences.hashCode());
+		result = prime * result + ((piId == null) ? 0 : piId.hashCode());
+		result = prime * result
+				+ ((preferences == null) ? 0 : preferences.hashCode());
+		return result;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (books == null) {
+			if (other.books != null)
+				return false;
+		} else if (!books.equals(other.books))
+			return false;
+		if (nonpreferences == null) {
+			if (other.nonpreferences != null)
+				return false;
+		} else if (!nonpreferences.equals(other.nonpreferences))
+			return false;
+		if (piId == null) {
+			if (other.piId != null)
+				return false;
+		} else if (!piId.equals(other.piId))
+			return false;
+		if (preferences == null) {
+			if (other.preferences != null)
+				return false;
+		} else if (!preferences.equals(other.preferences))
+			return false;
+		return true;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        User rhs = (User) obj;
-        return new EqualsBuilder().append(getId(), rhs.getId()).isEquals();
 
-    }
+	public String getPiId() {
+		return piId;
+	}
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(907, 193).append(getId()).hashCode();
-    }
+	public void setPiId(String piId) {
+		this.piId = piId;
+	}
 
-    @XmlTransient
-    @JsonIgnore
-    public String getPasswordHash() {
-        return passwordHash;
-    }
+	public String getBookLists() {
+		// TODO Auto-generated method stub
+		return Joiner.on(",").join(books);
+	}
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
+	public List<String> getBooks() {
+		return books;
+	}
 
-    @XmlTransient
-    @JsonIgnore
-    public String getPasswordSalt() {
-        return passwordSalt;
-    }
+	public String getPrefs() {
+		return Joiner.on(",").join(preferences);
+	}
 
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public UserSession getUserSession() {
-        return userSession;
-    }
-
-    public void setUserSession(UserSession userSession) {
-        this.userSession = userSession;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @JsonIgnore
-    @XmlTransient
-    public boolean isValid() {
-        return !getDeleted();
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public Date getRegisteredOn() {
-        return registeredOn;
-    }
-
-    public void setRegisteredOn(Date registeredOn) {
-        this.registeredOn = registeredOn;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public Date getDeletedOn() {
-        return deletedOn;
-    }
-
-    public void setDeletedOn(Date deletedOn) {
-        this.deletedOn = deletedOn;
-    }
-
-    @Override
-    public SkinnyUser loseWeight() {
-        SkinnyUser user = new SkinnyUser();
-        user.setUserName(getUserName());
-        user.setId(getId());
-        user.setCreatedOn(getCreatedOn());
-        return user;
-    }
+	public String getNonPrefs() {
+		// TODO Auto-generated method stub
+		return Joiner.on(",").join(nonpreferences);
+	}
 }

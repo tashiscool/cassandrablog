@@ -16,27 +16,27 @@ import java.util.List;
 
 public class CassandraSetUp {
     // credentials
-	private static String TOKEN = "<Token>";
-	private static String ACCOUNTID = "<AccountId>";
+	public static String TOKEN = "<Token>";
+	public static String ACCOUNTID = "<AccountId>";
 
 	// data 
-	private static String KS = "BOOKDORA";
+	public static String KS = "BOOKDORA";
 
-	private static String CF_TAGS = "tags";
-	private static String CF_TAGS_COL1 = "books";
+	public static String CF_TAGS = "tags";
+	public static String CF_TAGS_COL1 = "books";
 
-	private static String CF_BOOKS = "books";
-	private static String CF_BOOKS_TAGS = "tags";
-	private static String CF_BOOKS_SAMPLER = "sampler";
-	private static String CF_BOOKS_ISBN = "isbn";
-	private static String CF_BOOKS_TITLE = "title";
+	public static String CF_BOOKS = "books";
+	public static String CF_BOOKS_TAGS = "tags";
+	public static String CF_BOOKS_SAMPLER = "sampler";
+	public static String CF_BOOKS_ISBN = "isbn";
+	public static String CF_BOOKS_TITLE = "title";
 
-	private static String CF_USERS = "users";
-	private static String CF_USERS_COL1 = "books";
-	private static String CF_USERS_COL2 = "prefs";
-	private static String CF_USERS_COL3 = "non-prefs";
+	public static String CF_USERS = "users";
+	public static String CF_USERS_COL1 = "books";
+	public static String CF_USERS_COL2 = "prefs";
+	public static String CF_USERS_COL3 = "non-prefs";
 
-	private static String RK = "06-06-2013";
+	public static String RK = "06-06-2013";
 
 	@SuppressWarnings( "unchecked" )
 	public static void main(String[] args) {	

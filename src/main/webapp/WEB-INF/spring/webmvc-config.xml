@@ -10,13 +10,19 @@
 	</bean>
 	<bean class="com.welflex.service.UserServiceRestEndpoint" id="userServiceEndPoint">
 	</bean>
-	<bean id="bookService" class = "com.welflex.service.BookServiceImpl" p:daoFactory-ref="daofactory"/>
+	<bean id="bookService" class = "com.welflex.service.BookServiceImpl" />
 	<bean id="daofactory" class="org.lacassandra.smooshyfaces.persistence.cassandra.CassandraDAOFactory" p:bookDao-ref="bookDao" />
 	<bean id="bookDao" class="org.lacassandra.smooshyfaces.persistence.cassandra.CassandraBookDAO" p:context-ref="context"/>
 	
- 	<bean id="context" factory-bean="contextProvidor" factory-method="get" name="context"/>
- 	<bean id="contextProvidor" name="contextProvidor" class="org.lacassandra.smooshyfaces.persistence.AstyanaxKeyspaceContextProvider" 
- 		p:clusterName="MyCluster" p:keyspaceName="bookdora" p:maxBlockedThreadsPerHost="25" p:maxConnectinos="1" p:maxConnectionsPerHost="5" 
- 		p:maxPendingConnectionsPerHost="3" p:maxTimeoutCount="3" p:maxTimeoutWhenExhausted="3000" p:poolName="BookdoraPool" p:seedHosts="${CASSANDRAIO_URL}" 
- 		p:thriftPort="9160" /> 
+	<bean id = "userDao" class="com.welflex.service.UserDao">
+		<property name="dataAPI" ref="dataAPI"></property>
+		<property name="keyspaceName" value="com.welflex.util.CassandraSetUp.KS"/>
+		<property name="columnFamilyName" value="com.welflex.util.CassandraSetUp.CF_USERS"/>
+	</bean> 
+	
+	<bean id = "dataAPI" class="io.cassandra.sdk.data.DataAPI">
+		<constructor-arg><value>https://TB8Xnx6khZ:865cc5bc-04e5-4938-868b-423e74aa8f25@api.cassandra.io/1/welcome</value></constructor-arg>
+		<constructor-arg><value>TB8Xnx6khZ</value></constructor-arg>
+		<constructor-arg><value>865cc5bc-04e5-4938-868b-423e74aa8f25</value></constructor-arg>
+	</bean>
 </beans>
