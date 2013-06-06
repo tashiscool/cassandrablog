@@ -111,6 +111,6 @@
 	<bean id="context" factory-bean="contextProvidor" factory-method="get"/>
 	<bean id="contextProvidor" class="org.lacassandra.smooshyfaces.persistence.AstyanaxKeyspaceContextProvider" 
 		p:clusterName="MyCluster" p:keyspaceName="bookdora" p:maxBlockedThreadsPerHost="25" p:maxConnectinos="1" p:maxConnectionsPerHost="5"
-		p:maxPendingConnectionsPerHost="3" p:maxTimeoutCount="3" p:maxTimeoutWhenExhausted="3000" p:poolName="BookdoraPool" p:seedHosts="localhost:9160"
+		p:maxPendingConnectionsPerHost="3" p:maxTimeoutCount="3" p:maxTimeoutWhenExhausted="3000" p:poolName="BookdoraPool" p:seedHosts="${CASSANDRAIO_URL}"
 		p:thriftPort="9160" />
 </beans>
