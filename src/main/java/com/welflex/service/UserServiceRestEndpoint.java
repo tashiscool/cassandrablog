@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/user")
 public class UserServiceRestEndpoint {
 
-	@RequestMapping("/create")
+	@RequestMapping( method = RequestMethod.POST, value = "/create")
 	@ResponseBody
 	public User create(@RequestBody User newUser) {
 		
@@ -26,7 +26,7 @@ public class UserServiceRestEndpoint {
 		return u;
 	}
 
-	@RequestMapping(value = "/{userid}/like/{isbn}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{userid}/like/{isbn}", method = RequestMethod.GET)
 	@ResponseBody
 	public String likeBook(@PathVariable String userid, @PathVariable String isbn)
 	{
@@ -35,9 +35,9 @@ public class UserServiceRestEndpoint {
 	}
 
 
-	@RequestMapping(value = "/{userid}/like/{isbn}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userid}/dislike/{isbn}", method = RequestMethod.GET)
 	@ResponseBody
-	public String disLikeBook(@PathVariable String userID, @PathVariable String isbn)
+	public String disLikeBook(@PathVariable String userid, @PathVariable String isbn)
 	{
 //		User u = userService.create(newUser);
 		return "I hate You";
