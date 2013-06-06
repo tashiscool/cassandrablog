@@ -106,10 +106,10 @@
 	</bean>
 	<bean id="bookService" class = "com.welflex.service.BookServiceImpl" p:daoFactory-ref="daofactory"/>
 	<bean id="daofactory" class="org.lacassandra.smooshyfaces.persistence.cassandra.CassandraDAOFactory" p:bookDao-ref="bookDao" />
-	<bean id="bookDao" class="org.lacassandra.smooshyfaces.persistence.cassandra.CassandraBookDAO" p:context-ref=""/>
+	<bean id="bookDao" class="org.lacassandra.smooshyfaces.persistence.cassandra.CassandraBookDAO" p:context-ref="context"/>
 	
-	<bean id="context" factory-bean="contextProvidor" factory-method="get"/>
-	<bean id="contextProvidor" class="org.lacassandra.smooshyfaces.persistence.AstyanaxKeyspaceContextProvider" 
+	<bean id="context" factory-bean="contextProvidor" factory-method="get" name="context"/>
+	<bean id="contextProvidor" name="contextProvidor" class="org.lacassandra.smooshyfaces.persistence.AstyanaxKeyspaceContextProvider" 
 		p:clusterName="MyCluster" p:keyspaceName="bookdora" p:maxBlockedThreadsPerHost="25" p:maxConnectinos="1" p:maxConnectionsPerHost="5"
 		p:maxPendingConnectionsPerHost="3" p:maxTimeoutCount="3" p:maxTimeoutWhenExhausted="3000" p:poolName="BookdoraPool" p:seedHosts="${CASSANDRAIO_URL}"
 		p:thriftPort="9160" />
