@@ -453,28 +453,6 @@
 			<artifactId>high-scale-lib</artifactId>
 			<version>1.1.4</version>
 		</dependency>
-		<dependency>
-			<groupId>me.prettyprint</groupId>
-			<artifactId>hector-core</artifactId>
-			<version>1.0-5</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>me.prettyprint</groupId>
-			<artifactId>hector-core</artifactId>
-			<version>1.0-5</version>
-		</dependency>
-		<dependency>
-			<groupId>me.prettyprint</groupId>
-			<artifactId>hector-object-mapper</artifactId>
-			<version>3.0-04</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cassandra</groupId>
-			<artifactId>cassandra-all</artifactId>
-			<version>1.2.4</version>
-		</dependency>
 		
 		<dependency>
 			<groupId>com.eaio.uuid</groupId>
@@ -585,6 +563,13 @@
 			<scope>test</scope>
 		</dependency>
 		
+		
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>14.0.1</version>
+            <scope>compile</scope>
+        </dependency>
 		  <dependency>
             <groupId>com.netflix.astyanax</groupId>
             <artifactId>astyanax-recipes</artifactId>
