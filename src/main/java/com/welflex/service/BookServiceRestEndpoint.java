@@ -2,18 +2,17 @@ package com.welflex.service;
 
 import org.lacassandra.smooshyfaces.entity.Book;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller("/")
-public class BookServiceRestEndpoint 
+@RequestMapping("/book")
+public class BookServiceRestEndpoint
 {
 	
 	private BookService bookService;
 	
-	@RequestMapping("Book")
+	@RequestMapping("/create")
 	@ResponseBody
 	public Book create(@RequestBody Book blog)
 	{
