@@ -22,9 +22,9 @@ import org.lacassandra.smooshyfaces.persistence.BookDAO;
 import com.google.common.base.Joiner;
 import com.netflix.astyanax.serializers.AnnotatedCompositeSerializer;
 
-public class CassandraBookDAO  implements BookDAO {
+public class CassandraTagsDAO  implements BookDAO {
 
-	private static Logger log = Logger.getLogger(CassandraBookDAO.class);
+	private static Logger log = Logger.getLogger(CassandraTagsDAO.class);
 	
 	private DataAPI dataAPI; 
 	private String keySpaceName;
@@ -79,7 +79,7 @@ public class CassandraBookDAO  implements BookDAO {
     	
 		columns.add(new DataColumn(COLUMN_NAME_TAGS, tags));
 		columns.add(new DataColumn(COLUMN_NAME_ISBN, entity.getIsbn()));
-		columns.add(new DataColumn(COLUMN_NAME_TITLE, entity.getTitle()));
+		columns.add(new DataColumn(COLUMN_NAME_TITLE, entity.getIsbn()));
 		columns.add(new DataColumn(COLUMN_NAME_SAMPLER, entity.getSampler()));
 
 		List<DataRowkey> rows = new ArrayList<DataRowkey>();
