@@ -21,9 +21,45 @@ public class Book {
     protected List<String> tags = new ArrayList<String>();
     protected String title  = StringUtils.EMPTY;
     
+    private String isbnString= StringUtils.EMPTY;
+    private String url = StringUtils.EMPTY;
+    protected List<String> authors = new ArrayList<String>();
+    protected String publisher= StringUtils.EMPTY;
+    protected int article_count =0;
+    
     @XmlElement
     public String getIsbn() {
 		return isbn;
+	}
+	public String getIsbnString() {
+		return isbnString;
+	}
+	public void setIsbnString(String isbnString) {
+		this.isbnString = isbnString;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public List<String> getAuthors() {
+		return authors;
+	}
+	public void setAuthors(List<String> authors) {
+		this.authors = authors;
+	}
+	public String getPublisher() {
+		return publisher;
+	}
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+	public int getArticle_count() {
+		return article_count;
+	}
+	public void setArticle_count(int article_count) {
+		this.article_count = article_count;
 	}
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;

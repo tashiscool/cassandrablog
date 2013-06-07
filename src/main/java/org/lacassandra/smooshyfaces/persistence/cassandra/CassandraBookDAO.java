@@ -11,13 +11,21 @@ import io.cassandra.sdk.exception.CassandraIoException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.lacassandra.smooshyfaces.entity.Book;
 import org.lacassandra.smooshyfaces.persistence.BookDAO;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 import com.google.common.base.Joiner;
 import com.netflix.astyanax.serializers.AnnotatedCompositeSerializer;
@@ -29,8 +37,21 @@ public class CassandraBookDAO  implements BookDAO {
 	private DataAPI dataAPI; 
 	private String keySpaceName;
 	private String columnFamilyName;
+	private String bookAPIUrl;
 	
-    public final static String COLUMN_NAME_TAGS = "tags";
+    public String getBookAPIUrl() {
+		return bookAPIUrl;
+	}
+
+	public void setBookAPIUrl(String bookAPIUrl) {
+		this.bookAPIUrl = bookAPIUrl;
+	}
+
+	public void setColumnFamilyName(String columnFamilyName) {
+		this.columnFamilyName = columnFamilyName;
+	}
+
+	public final static String COLUMN_NAME_TAGS = "tags";
     public final static String COLUMN_NAME_ISBN = "isbn";
     public final static String COLUMN_NAME_TITLE = "tags";
     public final static String COLUMN_NAME_SAMPLER = "sampler";
@@ -61,7 +82,14 @@ public class CassandraBookDAO  implements BookDAO {
     		DataMapModel data = dataAPI.getData(this.keySpaceName, this.columnFamilyName, isbn ,0, null);
     		
     		b = convert(data);
+    		RestTemplate restTemplate = new RestTemplate();
+    		String id = b.getIsbn();
+    		Map<String,Object> map = new HashMap<String, Object>();
+    		map.put("id", id);
+			HttpEntity<APIBook> entity = restTemplate.getForEntity(bookAPIUrl, APIBook.class, map);
+    		APIBook body = entity.getBody();
     		
+    		copy(b,body);
     	}
     	catch(CassandraIoException e){
     		log.error(e.getMessage());
@@ -70,7 +98,29 @@ public class CassandraBookDAO  implements BookDAO {
 		return b;
     }
 
-    @Override
+    private void copy(Book b, APIBook body) {
+    	b.setSampler("this should be a small sample");
+    	b.setIsbnString(body.getBook().getIsbn());
+    	b.setUrl(body.getBook().getUrl());
+  
+    		b.getAuthors().addAll(CollectionUtils.collect(body.getBook().getAuthors(), new Transformer() {
+    			
+    			@Override
+    			public Object transform(Object arg0) {
+    				// TODO Auto-generated method stub
+    				if (arg0 instanceof Author)
+    				{
+    					return ((Author) arg0).getFull_name();
+    				}
+    				else
+    					return "";
+    			}
+    		}));
+    	b.setPublisher(body.getBook().getPublisher().getName());
+    	b.setArticle_count(body.getBook().getArticles().size());
+	}
+
+	@Override
     public Book save(final Book entity) {
 
     	List<DataColumn> columns = new ArrayList<DataColumn>();
@@ -179,6 +229,11 @@ public class CassandraBookDAO  implements BookDAO {
 
 	public void setColumnFamilyNAme(String columnFamilyName) {
 		this.columnFamilyName = columnFamilyName;
+	}
+
+	public void getBook() {
+		// TODO Auto-generated method stub
+		
 	}
     
 }
