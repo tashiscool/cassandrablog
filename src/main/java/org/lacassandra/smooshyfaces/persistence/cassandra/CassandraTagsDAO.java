@@ -11,18 +11,22 @@ import io.cassandra.sdk.exception.CassandraIoException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.lacassandra.smooshyfaces.entity.Book;
 import org.lacassandra.smooshyfaces.persistence.BookDAO;
+import org.lacassandra.smooshyfaces.persistence.TagsDAO;
 
 import com.google.common.base.Joiner;
 import com.netflix.astyanax.serializers.AnnotatedCompositeSerializer;
+import com.welflex.util.CassandraSetUp;
 
-public class CassandraTagsDAO  implements BookDAO {
+public class CassandraTagsDAO  implements TagsDAO {
 
 	private static Logger log = Logger.getLogger(CassandraTagsDAO.class);
 	
@@ -38,104 +42,7 @@ public class CassandraTagsDAO  implements BookDAO {
     protected final static AnnotatedCompositeSerializer<BookCommentEntry> BOOK_COMMENT_SERIALIZER =
             new AnnotatedCompositeSerializer<BookCommentEntry>(BookCommentEntry.class);
 
-    @Override
-    public Book findById(final UUID id) {
-        // You figure this one out :)
-        throw new NotImplementedException();
-    }
-
-    /**
-     * 
-     * @param isbn
-     * @return
-     */
-    public Book findById(final String isbn)  {
-    	
-    	Book b = null;
-    			
-    	if (isbn == null) {
-            return null;
-        }
-    	try{
-    		
-    		DataMapModel data = dataAPI.getData(this.keySpaceName, this.columnFamilyName, isbn ,0, null);
-    		
-    		b = convert(data);
-    		
-    	}
-    	catch(CassandraIoException e){
-    		log.error(e.getMessage());
-    	}
-		
-		return b;
-    }
-
-    @Override
-    public Book save(final Book entity) {
-
-    	List<DataColumn> columns = new ArrayList<DataColumn>();
-    	
-    	String tags = Joiner.on(",").join(entity.getTags());
-    	
-		columns.add(new DataColumn(COLUMN_NAME_TAGS, tags));
-		columns.add(new DataColumn(COLUMN_NAME_ISBN, entity.getIsbn()));
-		columns.add(new DataColumn(COLUMN_NAME_TITLE, entity.getIsbn()));
-		columns.add(new DataColumn(COLUMN_NAME_SAMPLER, entity.getSampler()));
-
-		List<DataRowkey> rows = new ArrayList<DataRowkey>();
-		
-		DataRowkey row = new DataRowkey(entity.getIsbn(), columns);
-		rows.add(row);
-
-		DataBulkModel dataBulk = new DataBulkModel(rows);
-
-		try {
-			StatusMessageModel sm = dataAPI.postBulkData(this.keySpaceName, this.columnFamilyName, dataBulk);
-			log.info(sm.getMessage());
-		}
-		catch(CassandraIoException e){
-			log.error(e.getMessage());
-		}
-    	
-    	return entity;
-    }
-
-    
-    @Override
-	public Long countAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Book> findByIds(Collection<UUID> ids) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Book> save(List<Book> entities) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete(Book entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-    public List<Book> findByTag(final String tag) {
-        // You figure this one out :)
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public List<Book> findByTag(final String tag, final UUID start, final int pageSize) {
-        // You figure this one out :)
-        throw new NotImplementedException();
-    }
+   
 
 	public DataAPI getDataAPI() {
 		return dataAPI;
@@ -144,25 +51,9 @@ public class CassandraTagsDAO  implements BookDAO {
 	public void setDataAPI(DataAPI dataAPI) {
 		this.dataAPI = dataAPI;
 	}
-	/**
-	 * 
-	 * @param data
-	 * @return
-	 */
-	private Book convert(DataMapModel data){
-		
-        Book book = new Book();
-        
-        String t = data.get(COLUMN_NAME_TAGS);
-        
-        List<String> tList = Arrays.asList(t.split(","));
-        
-        book.setTags(tList);
-        book.setIsbn(data.get(COLUMN_NAME_ISBN));
-        book.setSampler(data.get(COLUMN_NAME_SAMPLER));
-        book.setTitle(data.get(COLUMN_NAME_TITLE));
-        
-        return book;
+
+	public void setColumnFamilyName(String columnFamilyName) {
+		this.columnFamilyName = columnFamilyName;
 	}
 
 	public String getKeySpaceName() {
@@ -177,8 +68,27 @@ public class CassandraTagsDAO  implements BookDAO {
 		return columnFamilyName;
 	}
 
-	public void setColumnFamilyNAme(String columnFamilyName) {
-		this.columnFamilyName = columnFamilyName;
+	@Override
+	public void saveTag(String tag, String bookIsbn) throws CassandraIoException {
+		List<String> bookIsbns = findByTag(tag);
+		if (!bookIsbns.contains(bookIsbn) )
+		{
+			bookIsbns.add(bookIsbn);
+			Map<String, String> params = new HashMap<String, String>();
+			params.put(CassandraSetUp.CF_TAGS_COL1, Joiner.on(",").join(bookIsbns));
+			dataAPI.postData(keySpaceName, columnFamilyName, tag, params , 12000);
+		}
+	}
+
+	@Override
+	public List<String> findByTag(String tag) throws CassandraIoException {
+		// TODO Auto-generated method stub
+		return convert(dataAPI.getData(keySpaceName, columnFamilyName, tag, 0, null));
+	}
+
+	private List<String> convert(DataMapModel data) {
+		// TODO Auto-generated method stub
+		return Arrays.asList(data.get(CassandraSetUp.CF_TAGS_COL1).split(","));
 	}
     
 }
