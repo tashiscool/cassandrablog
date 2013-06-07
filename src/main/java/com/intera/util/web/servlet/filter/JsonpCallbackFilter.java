@@ -43,7 +43,7 @@ public class JsonpCallbackFilter implements Filter {
             out.write(wrapper.getData());
             out.write(new String(");").getBytes());
 
-            wrapper.setContentType("text/javascript;charset=UTF-8");
+            wrapper.setContentType("application/javascript;charset=UTF-8");
 
             out.close();
         } else {
