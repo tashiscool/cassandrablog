@@ -93,7 +93,10 @@ public class CassandraTagsDAO  implements TagsDAO {
 		{
 			foo = "";
 		}
-		return Arrays.asList(foo.split(","));
+		 ArrayList<String> returner = new ArrayList<String>();
+		for (String s : foo.split(","))
+			returner.add(s);
+		return returner;		
 	}
     
 }
