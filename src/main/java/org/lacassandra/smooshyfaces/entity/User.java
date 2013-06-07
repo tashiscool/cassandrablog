@@ -36,7 +36,7 @@ public class User implements Serializable {
 	private String piId;
 	private List<String> books = new ArrayList<String>();
 	private List<String> preferences = new ArrayList<String>();
-	private List<String> nonpreferences;
+	private List<String> nonpreferences = new ArrayList<String>();
 
     public User() {
         super();
