@@ -88,7 +88,12 @@ public class CassandraTagsDAO  implements TagsDAO {
 
 	private List<String> convert(DataMapModel data) {
 		// TODO Auto-generated method stub
-		return Arrays.asList(data.get(CassandraSetUp.CF_TAGS_COL1).split(","));
+		String foo = data.get(CassandraSetUp.CF_TAGS_COL1);
+		if (foo == null)
+		{
+			foo = "";
+		}
+		return Arrays.asList(foo.split(","));
 	}
     
 }
