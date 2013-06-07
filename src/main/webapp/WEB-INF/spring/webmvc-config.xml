@@ -6,7 +6,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<mvc:annotation-driven/>
-	<bean class="com.intera.util.web.servlet.filter.JsonpCallbackFilter" id="jsonpCallbackFilter" name="jsonpCallbackFilter" />
 	
 	<bean class="com.welflex.service.BookServiceRestEndpoint" id="applicationConversionService">
 		<property name="bookService" ref="bookService"/>
