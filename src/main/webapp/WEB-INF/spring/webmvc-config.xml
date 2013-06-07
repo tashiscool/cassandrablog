@@ -22,13 +22,13 @@
 	</bean> 
 	<bean id="tagDao" class="org.lacassandra.smooshyfaces.persistence.cassandra.CassandraTagsDAO" >
 		<property name="dataAPI" ref="dataAPI"></property>
-		<property name="keySpaceName" value="com.welflex.util.CassandraSetUp.KS"/>
-		<property name="columnFamilyName" value="com.welflex.util.CassandraSetUp.CF_TAGS"/>
+		<property name="keySpaceName"><value>com.welflex.util.CassandraSetUp.KS</value></property>
+		<property name="columnFamilyName"><value>com.welflex.util.CassandraSetUp.CF_TAGS</value></property>
 	</bean> 
 	<bean id = "userDao" class="com.welflex.service.UserDao">
 		<property name="dataAPI" ref="dataAPI"></property>
-		<property name="keyspaceName" value="com.welflex.util.CassandraSetUp.KS"/>
-		<property name="columnFamilyName" value="com.welflex.util.CassandraSetUp.CF_USERS"/>
+		<property name="keyspaceName" ><value>com.welflex.util.CassandraSetUp.KS</value></property>
+		<property name="columnFamilyName" ><value>com.welflex.util.CassandraSetUp.CF_USERS</value></property>
 	</bean> 
 	
 	<bean id = "dataAPI" class="io.cassandra.sdk.data.DataAPI">
