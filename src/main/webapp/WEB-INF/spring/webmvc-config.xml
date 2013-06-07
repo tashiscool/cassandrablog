@@ -16,19 +16,19 @@
 	<bean id="bookService" class = "com.welflex.service.BookServiceImpl" p:bookDao-ref="bookDao" p:tagDao-ref="tagDao"/>
 	<bean id="bookDao" class="org.lacassandra.smooshyfaces.persistence.cassandra.CassandraBookDAO" >
 		<property name="dataAPI" ref="dataAPI"></property>
-		<property name="keySpaceName" value="com.welflex.util.CassandraSetUp.KS"/>
-		<property name="columnFamilyNAme" value="com.welflex.util.CassandraSetUp.CF_BOOKS"/>
+		<property name="keySpaceName" value="BOOKDORA"/>
+		<property name="columnFamilyNAme" value="books"/>
 		<property name="bookAPIUrl" value="http://api.pearson.com/peachpit/vqs/v1/books/{id}?apikey=9b7305c0523c3902ec01b44e5a5c53ad"></property>
 	</bean> 
 	<bean id="tagDao" class="org.lacassandra.smooshyfaces.persistence.cassandra.CassandraTagsDAO" >
 		<property name="dataAPI" ref="dataAPI"></property>
-		<property name="keySpaceName"><value>com.welflex.util.CassandraSetUp.KS</value></property>
-		<property name="columnFamilyName"><value>com.welflex.util.CassandraSetUp.CF_TAGS</value></property>
+		<property name="keySpaceName" value="BOOKDORA"/>
+		<property name="columnFamilyName" value="tags"/>
 	</bean> 
 	<bean id = "userDao" class="com.welflex.service.UserDao">
 		<property name="dataAPI" ref="dataAPI"></property>
-		<property name="keyspaceName" ><value>com.welflex.util.CassandraSetUp.KS</value></property>
-		<property name="columnFamilyName" ><value>com.welflex.util.CassandraSetUp.CF_USERS</value></property>
+		<property name="keyspaceName" value="BOOKDORA"/>
+		<property name="columnFamilyName" value="users"/>
 	</bean> 
 	
 	<bean id = "dataAPI" class="io.cassandra.sdk.data.DataAPI">
