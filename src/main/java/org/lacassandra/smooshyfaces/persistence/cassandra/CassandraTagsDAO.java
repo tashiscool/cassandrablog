@@ -71,12 +71,18 @@ public class CassandraTagsDAO  implements TagsDAO {
 	@Override
 	public void saveTag(String tag, String bookIsbn) throws CassandraIoException {
 		List<String> bookIsbns = findByTag(tag);
+		if(bookIsbns == null){
+			bookIsbns = new ArrayList<String>();
+		}
 		if (!bookIsbns.contains(bookIsbn) )
 		{
-			bookIsbns.add(bookIsbn);
-			Map<String, String> params = new HashMap<String, String>();
-			params.put(CassandraSetUp.CF_TAGS_COL1, Joiner.on(",").join(bookIsbns));
-			dataAPI.postData(keySpaceName, columnFamilyName, tag, params , 12000);
+			if (bookIsbn != null)
+			{
+				bookIsbns.add(bookIsbn);
+				Map<String, String> params = new HashMap<String, String>();
+				params.put(CassandraSetUp.CF_TAGS_COL1, Joiner.on(",").join(bookIsbns));
+				dataAPI.postData(keySpaceName, columnFamilyName, tag, params , 12000);
+			}
 		}
 	}
 
@@ -90,13 +96,11 @@ public class CassandraTagsDAO  implements TagsDAO {
 		// TODO Auto-generated method stub
 		String foo = data.get(CassandraSetUp.CF_TAGS_COL1);
 		if (foo == null)
-		{
 			foo = "";
-		}
-		 ArrayList<String> returner = new ArrayList<String>();
+		ArrayList<String> returner = new ArrayList<String>();
 		for (String s : foo.split(","))
 			returner.add(s);
-		return returner;		
+		return returner;
 	}
     
 }

@@ -16,8 +16,8 @@ import java.util.List;
 
 public class CassandraSetUp {
     // credentials
-	public static String TOKEN = "<Token>";
-	public static String ACCOUNTID = "<AccountId>";
+	public static String TOKEN = "TB8Xnx6khZ";
+	public static String ACCOUNTID = "865cc5bc-04e5-4938-868b-423e74aa8f25";
 
 	// data 
 	public static String KS = "BOOKDORA";
@@ -46,12 +46,16 @@ public class CassandraSetUp {
 			// Create Keyspace
 			KeyspaceAPI keyspaceAPI = new KeyspaceAPI(APIConstants.API_URL, TOKEN, ACCOUNTID);
 			sm = keyspaceAPI.createKeyspace(KS);
+			System.out.println(sm.getMessage());
+			System.out.println(sm.getDetail());
 			
 		     // Create ColumnFamilies
 			ColumnFamilyAPI columnFamilyAPI = new ColumnFamilyAPI(APIConstants.API_URL, TOKEN,ACCOUNTID);
 			sm = columnFamilyAPI.createColumnFamily(KS, CF_BOOKS,	APIConstants.COMPARATOR_UTF8);
 			sm = columnFamilyAPI.createColumnFamily(KS, CF_USERS,	APIConstants.COMPARATOR_UTF8);
 			sm = columnFamilyAPI.createColumnFamily(KS, CF_TAGS,	APIConstants.COMPARATOR_UTF8);
+			System.out.println(sm.getMessage());
+			System.out.println(sm.getDetail());
 
 			// Add cols for all families
 			ColumnAPI columnAPI = new ColumnAPI(APIConstants.API_URL, TOKEN, ACCOUNTID);
@@ -65,35 +69,38 @@ public class CassandraSetUp {
 			sm = columnAPI.upsertColumn(KS, CF_USERS, CF_USERS_COL3,APIConstants.COMPARATOR_UTF8, true);
 			
 			sm = columnAPI.upsertColumn(KS, CF_TAGS, CF_TAGS_COL1,APIConstants.COMPARATOR_UTF8, true);
+			System.out.println(sm.getMessage());
+			System.out.println(sm.getDetail());
 			
-			
+		
 			//Add Bulk Data
-			DataAPI dataAPI = new DataAPI(APIConstants.API_URL, TOKEN, ACCOUNTID);
-
-			List<DataColumn> columns = new ArrayList<DataColumn>();
-
-			DataColumn dc = new DataColumn(CF_BOOKS_TAGS, "sex,drugs,rockNroll");
-			columns.add(dc);
-			dc = new DataColumn(CF_BOOKS_ISBN, "a12345");
-			columns.add(dc);
-			dc = new DataColumn(CF_BOOKS_TITLE, "Walk Hard - the Dewey Cox Story");
-			columns.add(dc);
-			dc = new DataColumn(CF_BOOKS_SAMPLER, "Once upon a time there was a dude named tash...");
-			columns.add(dc);
-
-			List<DataRowkey> rows = new ArrayList<DataRowkey>();
-			DataRowkey row = new DataRowkey(RK, columns);
-			rows.add(row);
-
-			DataBulkModel dataBulk = new DataBulkModel(rows);
-
-			sm = dataAPI.postBulkData(KS, CF_BOOKS, dataBulk);
-			
-			// Get Data
-			DataMapModel dm = dataAPI.getData(KS, CF_BOOKS, RK, 0, null);
+//			DataAPI dataAPI = new DataAPI(APIConstants.API_URL, TOKEN, "<ACCOUNTID>");
+//
+//			List<DataColumn> columns = new ArrayList<DataColumn>();
+//
+//			DataColumn dc = new DataColumn(CF_BOOKS_TAGS, "sex,drugs,rockNroll");
+//			columns.add(dc);
+//			dc = new DataColumn(CF_BOOKS_ISBN, "a12345");
+//			columns.add(dc);
+//			dc = new DataColumn(CF_BOOKS_TITLE, "Walk Hard - the Dewey Cox Story");
+//			columns.add(dc);
+//			dc = new DataColumn(CF_BOOKS_SAMPLER, "Once upon a time there was a dude named tash...");
+//			columns.add(dc);
+//
+//			List<DataRowkey> rows = new ArrayList<DataRowkey>();
+//			DataRowkey row = new DataRowkey(RK, columns);
+//			rows.add(row);
+//
+//			DataBulkModel dataBulk = new DataBulkModel(rows);
+//
+//			sm = dataAPI.postBulkData(KS, CF_BOOKS, dataBulk);
+//			
+//			// Get Data
+//			DataMapModel dm = dataAPI.getData(KS, CF_BOOKS, RK, 0, null);
 		
 			// Delete Keyspace
-			//sm = keyspaceAPI.deleteKeyspace(KS);
+			sm = keyspaceAPI.deleteKeyspace(KS);
+			System.out.println(sm.getDetail());
 		
 		}
 		catch(Exception e) {
