@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -56,9 +57,9 @@ public class UserServiceRestEndpoint {
 
 	private String piSamlUrl = "https://sso.rumba.int.pearsoncmg.com/sso/samlValidate?service=http://floating-peak-4593.herokuapp.com/findBook&ticket=";
 	
-	@RequestMapping( method = RequestMethod.GET, value = "/upsert/{ticket}", produces="application/json")
+	@RequestMapping( method = RequestMethod.GET, value = "/upsert", produces="application/json")
 	@ResponseBody
-	public User validate(@PathVariable String ticket) {
+	public User validate(@RequestParam(value="ticket") String ticket) {
 		
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet getmethod = new HttpGet(piSamlUrl+ticket);
@@ -119,25 +120,25 @@ public class UserServiceRestEndpoint {
 		return u;
 	}
 
-	@RequestMapping(value = "/{userid}/like/{isbn}", method = RequestMethod.GET, produces="application/json")
+	@RequestMapping(value = "/like/", method = RequestMethod.GET, produces="application/json")
 	@ResponseBody
-	public User likeBook(@PathVariable String userid, @PathVariable String isbn)
+	public User likeBook(@RequestParam(value="userid") String userid , @RequestParam(value="isbn") String isbn)
 	{
 		User user = userService.like(userid,isbn); 
 		return user;
 	}
 
 
-	@RequestMapping(value = "/{userid}/dislike/{isbn}", method = RequestMethod.GET, produces="application/json")
+	@RequestMapping(value = "/dislike/", method = RequestMethod.GET, produces="application/json")
 	@ResponseBody
-	public User disLikeBook(@PathVariable String userid, @PathVariable String isbn)
+	public User disLikeBook(@RequestParam(value="userid") String userid, @RequestParam(value="isbn") String isbn)
 	{
 		User user = userService.dislike(userid,isbn); 
 		return user;
 	}
-	@RequestMapping(value = "/{userid}/next", method = RequestMethod.GET, produces="application/json")
+	@RequestMapping(value = "/next", method = RequestMethod.GET, produces="application/json")
 	@ResponseBody
-	public Book next(@PathVariable String userid)
+	public Book next(@RequestParam(value="userid") String userid)
 	{
 		return userService.next(userid);
 	}
